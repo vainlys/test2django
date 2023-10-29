@@ -1,18 +1,12 @@
-from django.conf import settings
 from django.db import models
-from django.utils import timezone
+import datetime
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200)
-    text = models.TextField(max_length=1000)
-    created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
-
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
+    published_date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=255)
+    content = models.TextField(default="This is the default content for new blog posts.")
+    last_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
